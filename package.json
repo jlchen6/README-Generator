@@ -1,0 +1,20 @@
+{
+  "name": "readme-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlchen6/README-Generator.git"
+  },
+  "author": "jlchen6",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jlchen6/README-Generator/issues"
+  },
+  "homepage": "https://github.com/jlchen6/README-Generator#readme",
+  "keywords": []
+}
