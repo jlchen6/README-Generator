@@ -16,5 +16,10 @@
     "url": "https://github.com/jlchen6/README-Generator/issues"
   },
   "homepage": "https://github.com/jlchen6/README-Generator#readme",
-  "keywords": []
+  "keywords": [],
+  "dependencies": {
+    "axios": "^0.19.2",
+    "inquirer": "^7.1.0",
+    "util": "^0.12.2"
+  }
 }
