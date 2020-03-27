@@ -65,8 +65,9 @@ function init() {
             api.getUser(response.username)
                 // Then, after the api call is done, pass the userdata to the markdown function that stores that data in a string
                 .then(function (userData) {
+                    // Grab the data from the axios result
                     var user = userData.data;
-                    console.log("reached genMark", user);
+                    // Build an object with data to write to the README
                     var readmeData = {
                         title: response.project,
                         github: user.login,
@@ -80,11 +81,13 @@ function init() {
                         url: user.url,
                         email: user.email
                     };
+                    // Call the function that generates the string to write to the README
                     return genMark(readmeData);
                 })
                 // Pass the created string to the function that writes the README file.
                 .then(function (fileData) {
-                    writeToFile(`${response.title}README.md`, fileData);
+                    // Write the file to an output folder so that it doesn't overwrite the current files.
+                    writeToFile(`./output/${response.project}README.md`, fileData);
                 })
                 .catch(function (error) {
                     throw error;
