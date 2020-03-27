@@ -25,7 +25,7 @@ Generates a well formatted README using user input
 To install necessary dependencies, run the following command:
 
 ```
-npm i
+npm install
 ```
 
 ## Usage
