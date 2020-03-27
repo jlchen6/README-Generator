@@ -34,7 +34,7 @@ Program is run from the console
 
 ## License
 
-This project is licensed under the MIT license.
+n/a
   
 ## Contributing
 
@@ -52,5 +52,5 @@ node index.js
 
 <img src="https://avatars1.githubusercontent.com/u/10055114?v=4" alt="avatar" style="border-radius: 16px" width="30" />
 
-If you have any questions about the repo, open an issue or contact [jlchen6](https://api.github.com/users/jlchen6) directly at jlchen6@wisc.edu.
+If you have any questions about the repo, open an issue or contact [jlchen6](https://api.github.com/jlchen6) directly at jlchen6@wisc.edu.
 

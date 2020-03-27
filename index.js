@@ -78,7 +78,7 @@ function init() {
                         contributing: response.credits,
                         test: response.test,
                         avatar_url: user.avatar_url,
-                        url: user.url,
+                        url: user.html_url,
                         email: user.email
                     };
                     // Call the function that generates the string to write to the README
