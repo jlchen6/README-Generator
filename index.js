@@ -2,18 +2,15 @@ require('dotenv').config();
 // import the required libraries
 const fs = require("fs");
 const inquire = require("inquirer");
-const axios = require("axios");
-// const api = require("./util/api.js");
+const api = require("./util/api.js");
 const genMark = require("./util/generateMarkdown.js")
 const util = require("util")
 var title = "";
 
 // Convert functions into promise based functions so can call them in order later
 // const getUserAsync = util.promisify(api.getUser);
-const genMarkAsync = util.promisify(genMark);
+// const genMarkAsync = util.promisify(genMark);
 const writeFileAsync = util.promisify(writeToFile);
-
-const config = { headers: { accept: "application/json" } };
 
 // Array of questions to feed into inquirer
 const questions = [{
@@ -23,34 +20,37 @@ const questions = [{
 {
     message: "What is the repo name that you would like to generate a README for?: ",
     name: "project"
+},
+{
+    message: "What license should this project have?: ",
+    name: "license"
+},
+{
+    message: "Please give a short description for the README: ",
+    name: "description"
+},
+{
+    message: "What command should be run to install any dependencies?: ",
+    name: "install"
+},
+{
+    message: "Please give usage instructions: ",
+    name: "usage"
+},
+{
+    message: "Who else contributed to this project?: ",
+    name: "credits"
+},
+{
+    message: "What command should be used to run tests?: ",
+    name: "test"
 }];
 
 // Function that will write the given data into a file.
 function writeToFile(fileName, data) {
-    console.log("Writing file.")
+    console.log("Writing file.");
+    fs.writeFile(fileName,data,function(error){});
 }
-
-function getUser(username) {
-    var queryUrl = `https://api.github.com/users/${username}?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`;
-
-    axios.get(queryUrl, config)
-    .then(function(res) {
-      console.log(res.data);
-      // Then, after the api call is done, pass the userdata to the markdown function that stores that data in a string
-      return genMarkAsync(res.data);
-    })
-    // Pass the created string to the function that writes the README file.
-    .then(function (fileData) {
-        console.log("reached genMark");
-        return writeFileAsync("README.md", fileData);
-    })
-    .then(function () {
-       console.log("Finished writing README!");
-    })
-    .catch(function(error){
-      throw error;
-    });
-  }
 
 // Main function that initializes the program
 function init() {
@@ -61,13 +61,35 @@ function init() {
     askQuestions
         .then(function (response) {
             // Call the function to get the user data from the api and return it as part of the promise
-            console.log("getting user data");
-            title = response.project;
-            getUser(response.username);
-        })
-        .catch(function (error) {
-            throw error;
-        })
+            console.log("username", response.username);
+            api.getUser(response.username)
+                // Then, after the api call is done, pass the userdata to the markdown function that stores that data in a string
+                .then(function (userData) {
+                    var user = userData.data;
+                    console.log("reached genMark", user);
+                    var readmeData = {
+                        title: response.project,
+                        github: user.login,
+                        license: response.license,
+                        description: response.description,
+                        installation: response.install,
+                        usage: response.usage,
+                        contributing: response.credits,
+                        test: response.test,
+                        avatar_url: user.avatar_url,
+                        url: user.url,
+                        email: user.email
+                    };
+                    return genMark(readmeData);
+                })
+                // Pass the created string to the function that writes the README file.
+                .then(function (fileData) {
+                    writeToFile(`${response.title}README.md`, fileData);
+                })
+                .catch(function (error) {
+                    throw error;
+                })
+        });
 }
 
 init();
